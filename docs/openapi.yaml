@@ -39,7 +39,7 @@ components:
         name:
           type: string
           description: The name of the project.
-          examples: "API Documentation Revamp"
+          example: "API Documentation Revamp"
         description:
           type: string
           nullable: true
@@ -67,7 +67,7 @@ components:
         title:
           type: string
           description: The title of the task.
-          examples: "Write introduction page"
+          example: "Write introduction page"
         description:
           type: string
           nullable: true
@@ -81,7 +81,7 @@ components:
             - `pending`: The task has not been started.
             - `in_progress`: The task is actively being worked on.
             - `done`: The task has been completed.
-          examples: "pending"
+          example: "pending"
         created_at:
           type: string
           format: date-time
@@ -103,7 +103,7 @@ components:
         total:
           type: integer
           description: Total number of tasks in the project.
-          examples: 3
+          example: 3
         tasks:
           type: array
           items:
@@ -141,7 +141,7 @@ paths:
                 name:
                   type: string
                   description: The name of the project. Required.
-                  examples: "API Documentation Revamp"
+                  example: "API Documentation Revamp"
                 description:
                   type: string
                   description: An optional description of the project.
@@ -153,7 +153,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Project"
-              examples:
+              example:
                 project_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
                 name: "API Documentation Revamp"
                 description: "Rewriting all public-facing API docs for v2."
@@ -164,7 +164,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              examples:
+              example:
                 error: "Bad Request"
                 message: "The 'name' field is required and must be a non-empty string."
         "401":
@@ -173,7 +173,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              examples:
+              example:
                 error: "Unauthorized"
                 message: "Missing or invalid API key. Provide a valid key in the Authorization header as: Bearer <api_key>"
 
@@ -240,7 +240,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              examples:
+              example:
                 error: "Not Found"
                 message: "No project found with project_id 'abc123'. Create a project first using POST /projects."
 
@@ -259,7 +259,7 @@ paths:
           schema:
             type: string
             format: uuid
-          examples: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          example: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
       responses:
         "200":
           description: Tasks retrieved successfully.
@@ -267,7 +267,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TaskList"
-              examples:
+              example:
                 project_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
                 total: 1
                 tasks:
@@ -290,7 +290,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              examples:
+              example:
                 error: "Not Found"
                 message: "No project found with project_id 'abc123'."
 
