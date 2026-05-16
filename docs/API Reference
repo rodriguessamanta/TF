@@ -7,11 +7,8 @@ description: "All Task Flow API endpoints with requests and responses."
 
 **Base URL** `https://test-writechoice.onrender.com`
 
-<Warning>
-  All requests require a Bearer token in the header.
-
+ ⚠ All requests require a Bearer token in the header.
   Example: Bearer tf-live-4a8f2c1e9b3d7e6a
-</Warning>
 
 ## Endpoints
 
