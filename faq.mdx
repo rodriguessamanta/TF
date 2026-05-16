@@ -1,0 +1,105 @@
+---
+"FAQ"
+---
+
+## Authentication
+
+**How do I authenticate my requests?**
+
+Every request must include your API key in the `Authorization` header as a Bearer token:
+
+```bash
+Authorization: Bearer tf-live-4a8f2c1e9b3d7e6a
+```
+
+Requests without a valid key return a `401 Unauthorized` error.
+
+**What does a 401 error mean?**
+
+A `401` response means the API key is either missing or invalid. Check that:
+
+- The `Authorization` header is present in the request.
+- The value starts with `Bearer ` (note the space).
+- The key itself is correct and has not been revoked.
+
+## Projects
+
+**Do I need a project before creating tasks?**
+
+Yes. Every task must belong to a project. You must call `POST /projects` first and use the returned `project_id` when creating tasks. Sending a `project_id` that does not exist returns a `404` error.
+
+**I lost my project\_id. How do I find it again?**
+
+The current version of the API does not include a `GET /projects` endpoint. If you lose a `project_id`, you cannot retrieve it through the API. Always store IDs on your side after creation.
+
+<Note>
+  A `GET /projects` endpoint is planned as a future improvement.
+</Note>
+
+**Can I update or delete a project?**
+
+Not in the current version. There are no endpoints for updating or deleting projects. These are planned improvements for a future release.
+
+## Tasks
+
+**What is the default status of a new task?**
+
+All tasks are created with status `pending` by default. You cannot set a different status at creation time — use `PATCH /tasks/{task_id}` to update it afterward.
+
+**What status values are allowed?**
+
+There are exactly three valid values:
+
+- `pending` — task has not been started.
+- `in_progress` — task is actively being worked on.
+- `done` — task has been completed.
+
+Any other value returns a `400 Bad Request`.
+
+**Can I update multiple fields at once?**
+
+Yes. `PATCH /tasks/{task_id}` accepts `status`, `title`, and `description` in the same request. At least one field must be provided — an empty body returns a `400` error.
+
+```json
+{
+  "status": "in_progress",
+  "title": "Write introduction and quickstart pages"
+}
+```
+
+**Is it possible to recover a deleted task?**
+
+No. Deletion via `DELETE /tasks/{task_id}` is permanent and cannot be undone. There is no trash or archive feature.
+
+<Warning>
+  Always confirm the correct `task_id` before sending a DELETE request.
+</Warning>
+
+**Is there pagination for task lists?**
+
+No. `GET /projects/{project_id}/tasks` returns all tasks at once. There are no `limit`, `offset`, or page parameters. For projects with a large number of tasks, consider handling pagination on your side.
+
+**Can I filter tasks by status?**
+
+No. `GET /projects/{project_id}/tasks` always returns all tasks in a project.
+
+## Errors
+
+**What does the error response look like?**
+
+All error responses follow the same structure:
+
+```json
+{
+  "error": "Not Found",
+  "message": "No project found with project_id 'abc123'."
+}
+```
+
+The `error` field is a short type, and `message` provides a human-readable explanation.
+
+**Quick reference: common error codes**
+
+- `400` Bad Request — Missing required field, invalid status value, or empty PATCH body.
+- `401` Unauthorized — Missing or invalid API key in the Authorization header.
+- `404` Not Found — The `project_id` or `task_id` does not exist.
